@@ -13,3 +13,12 @@ console.log(a * b);
 console.log(a / b);
 console.log(a % b);
 console.log(a ** b);
+
+// Comparsion operators
+
+console.log(10 < 9);
+console.log(10 > 9);
+console.log(10 <= 9);
+console.log(10 >= 9);
+console.log(10 == 9);
+console.log(10 != 9);
