@@ -22,3 +22,12 @@ console.log(10 <= 9);
 console.log(10 >= 9);
 console.log(10 == 9);
 console.log(10 != 9);
+
+console.log("Logical operators");
+console.log(10 < 20 && 20 > 21);
+console.log(10 < 20 && 30 > 21);
+console.log(10 < 20 || 20 > 21);
+console.log(10 < 20 || 30 > 21);
+
+var nego = true;
+console.log(!nego);
