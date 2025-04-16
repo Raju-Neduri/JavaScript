@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Variable Exercise- Cart Quantity</title>
+    <title>Variable Exercise - Cart Quantity</title>
     <style>
       body {
         text-align: center;
@@ -14,7 +14,14 @@
 
       h1 {
         color: #333;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
+      }
+
+      #cart-display {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #3a59d1;
       }
 
       .buttons {
@@ -43,44 +50,32 @@
   </head>
   <body>
     <h1>Cart Quantity</h1>
+    <p id="cart-display">Cart Quantity: 0</p>
 
-    <button
-      class="buttons"
-      onclick=" console.log(`Cart Quantity : ${cartQuantity}`)"
-    >
-      Show Quantity
-    </button>
-
-    <button
-      class="buttons"
-      onclick="  cartQuantity++; console.log(`Cart Quantity : ${cartQuantity}`)"
-    >
-      Add to cart
-    </button>
-
-    <button
-      class="buttons"
-      onclick="  cartQuantity+=2; console.log(`Cart Quantity : ${cartQuantity}`)"
-    >
-      +2
-    </button>
-
-    <button
-      class="buttons"
-      onclick="  cartQuantity+=3; console.log(`Cart Quantity : ${cartQuantity}`)"
-    >
-      +3
-    </button>
-
-    <button
-      class="buttons"
-      onclick="  cartQuantity=0; console.log(`Cart Quantity : ${cartQuantity}`)"
-    >
-      Reset
-    </button>
+    <button class="buttons" onclick="showCart()">Show Quantity</button>
+    <button class="buttons" onclick="addToCart(1)">Add to Cart</button>
+    <button class="buttons" onclick="addToCart(2)">+2</button>
+    <button class="buttons" onclick="addToCart(3)">+3</button>
+    <button class="buttons" onclick="resetCart()">Reset</button>
 
     <script>
       let cartQuantity = 0;
+
+      function showCart() {
+        document.getElementById(
+          "cart-display"
+        ).textContent = `Cart Quantity: ${cartQuantity}`;
+      }
+
+      function addToCart(amount) {
+        cartQuantity += amount;
+        showCart();
+      }
+
+      function resetCart() {
+        cartQuantity = 0;
+        showCart();
+      }
     </script>
   </body>
 </html>
