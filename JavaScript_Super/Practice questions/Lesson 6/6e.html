@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6d - Discount Check</title>
+  </head>
+  <body>
+    <script>
+      const age = 5;
+      const isHoliday = true;
+
+      const isEligibleAge = age <= 6 || age >= 65;
+
+      if (isEligibleAge && !isHoliday) {
+        console.log(
+          `Today is not a holiday, so discount is available as your age is: ${age}`
+        );
+      } else if (isEligibleAge && isHoliday) {
+        console.log(
+          `Today is a holiday, so no discount even though age is: ${age}`
+        );
+      } else {
+        console.log(`Discount is not available as your age is: ${age}`);
+      }
+    </script>
+  </body>
+</html>
