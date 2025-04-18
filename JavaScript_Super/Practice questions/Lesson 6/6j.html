@@ -1,22 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coin flip</title>
-  </head>
+<html>
+  <head></head>
   <body>
-    <h1>6j</h1>
     <script>
-      let randomNumber = Math.random();
-      console.log(randomNumber);
-      let guess = "tails";
+      const randomNumber = Math.random();
+      const result = randomNumber < 0.5 ? "heads" : "tails";
 
-      let result = "";
-
-      randomNumber < 0.5 ? (result = "heads") : (result = "tails");
-
-      guess === result ? console.log("you win") : console.log("you lose");
+      const guess = "heads";
+      console.log(guess === result ? "You win!" : "You lose!");
     </script>
   </body>
 </html>
