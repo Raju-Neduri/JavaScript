@@ -42,3 +42,36 @@ console.log(arr6);
 let arr7 = [1, 2, 3, 4, 5];
 console.log(delete arr7[2]);
 console.log(arr7);
+
+//concat
+let arr8 = [1, 2, 3, 4, 5];
+let arr9 = [6, 7, 8, 9, 10];
+result = arr8.concat(arr9);
+console.log(result);
+
+//sort
+let arr10 = [1, 56, 2829, 944, 578];
+arr10.sort();
+console.log(arr10);
+
+//Reverse
+let arr11 = [1, 2, 3, 4, 5, 6];
+arr11.reverse();
+console.log(arr11);
+
+//splice
+let arr12 = [1, 2, 3, 4, 5, 6];
+arr12.splice(2, 1, 50, 60);
+console.log(arr12);
+
+//slice
+let arr13 = [1, 2, 3, 4, 5, 6];
+let sliceResult = arr13.slice(2, 5);
+console.log(sliceResult);
+
+//Some
+let arr14 = [1, 2, 3, 5, 7, 8];
+arr14.some((item) => {
+  return item % 2 === 0;
+});
+console.log(arr14);
