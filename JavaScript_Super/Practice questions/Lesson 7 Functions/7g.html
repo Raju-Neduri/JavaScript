@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7g</title>
+  </head>
+  <body>
+    <script>
+      function convertLength(length, from, to) {
+        if (from === "miles" && to === "km") {
+          let result = length * 1.609344;
+          return `${result}km`;
+        } else if (from === "km" && to === "miles") {
+          let result = length * 0.621371192;
+          return `${result}miles`;
+        } else if (
+          (from === "km" && to == "km") ||
+          (from === "miles" && to === "miles")
+        ) {
+          let result = length;
+          return `${result}${from}`;
+        }
+      }
+
+      console.log(convertLength(50, "miles", "km")); // 80.4672 km
+      console.log(convertLength(32, "km", "miles")); // 19.883878144 miles
+      console.log(convertLength(50, "km", "km")); // 50 km
+      console.log(convertLength(90, "miles", "miles")); // 90 miles
+    </script>
+  </body>
+</html>
