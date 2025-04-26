@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compare Products</title>
+  </head>
+  <body>
+    <script>
+      // product 1
+      let product1 = {
+        name: "Mouse",
+        brand: "Dell",
+        price: 1500,
+      };
+
+      // product 2
+      let product2 = {
+        name: "Keyboard",
+        brand: "HP",
+        price: 2000,
+      };
+
+      function comparePrice(p1, p2) {
+        if (p1.price < p2.price) {
+          return p2;
+        } else if (p1.price > p2.price) {
+          return p1;
+        } else {
+          return null; // or you could return both, or a message
+        }
+      }
+
+      // Correct call: pass the objects, and capture the result
+      const moreExpensive = comparePrice(product1, product2);
+
+      if (moreExpensive) {
+        console.log(
+          `The more expensive product is the ${moreExpensive.name} by ${moreExpensive.brand}, priced at ₹${moreExpensive.price}.`
+        );
+      } else {
+        console.log("Both products have the same price.");
+      }
+    </script>
+  </body>
+</html>
