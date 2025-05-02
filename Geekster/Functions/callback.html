@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Callback</title>
+  </head>
+  <body>
+    <script>
+      function greet() {
+        console.log("Hi");
+      }
+      function sayname(name) {
+        console.log(`Hello ${name}`);
+      }
+      setTimeout(greet, 2000);
+      sayname("Raju");
+    </script>
+  </body>
+</html>
