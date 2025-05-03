@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reverse a String</title>
+  </head>
+  <body>
+    <script>
+      let arr = [10, 22, 44, 55, 77, 88];
+      console.log("Original array:", arr);
+
+      function reverseArray(arr) {
+        let result = [];
+        for (let i = arr.length - 1; i >= 0; i--) {
+          result.push(arr[i]);
+        }
+        return result;
+      }
+
+      let reversed = reverseArray(arr);
+      console.log("Reversed array:", reversed);
+    </script>
+  </body>
+</html>
