@@ -1,0 +1,83 @@
+<!-- *Moving Login Button Project*
+*(Troll Form 😂)*
+
+*If the user enters an incorrect password, the "Login" button moves away!* -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Funny Login</title>
+    <style>
+      .container {
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      .btn {
+        position: relative;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease; /* Smooth movement */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Enter Password</h2>
+      <input
+        type="password"
+        id="password"
+        placeholder="Type something..."
+        oninput="moveButton()"
+        onkeydown="checkEnter(event)"
+      />
+      <br /><br />
+      <button id="btn" class="btn" onclick="login()">Login</button>
+    </div>
+
+    <script>
+      function moveButton() {
+        const password = document.getElementById("password").value;
+        const button = document.getElementById("btn");
+
+        if (password !== "legend") {
+          const buttonWidth = button.offsetWidth;
+          const buttonHeight = button.offsetHeight;
+
+          const maxX = window.innerWidth - buttonWidth;
+          const maxY = window.innerHeight - buttonHeight;
+
+          const x = Math.random() * maxX;
+          const y = Math.random() * maxY;
+
+          button.style.position = "absolute";
+          button.style.left = `${x}px`;
+          button.style.top = `${y}px`;
+        }
+      }
+
+      function checkEnter(event) {
+        if (event.key === "Enter") {
+          login();
+        }
+      }
+
+      function login() {
+        const password = document.getElementById("password").value;
+        if (password === "legend") {
+          alert("You got lucky!");
+        } else {
+          alert("Wrong password. Try again!");
+        }
+      }
+    </script>
+  </body>
+</html>
+
+<!-- *How It Works?*
+
+If the user types anything other than "legend", the login button starts running away from the cursor.
+
+If the correct password is entered, the button stays in place. -->
