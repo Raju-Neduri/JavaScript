@@ -24,6 +24,16 @@
   </head>
   <body>
     <div id="ans"></div>
-    <script></script>
+    <script>
+      function bouncer(arr) {
+        return arr.filter(Boolean);
+      }
+      let arr = [2, "", 0, true, "Ring", false, "False", NaN];
+      let result = bouncer(arr);
+
+      document.getElementById("ans").innerHTML = `<span>${result.join(
+        ", "
+      )}</span>`;
+    </script>
   </body>
 </html>
