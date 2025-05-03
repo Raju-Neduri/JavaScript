@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #ans {
+        font-size: 80px;
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+      }
+
+      #ans span {
+        padding: 20px 30px;
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ans"></div>
+    <script>
+      function largestElementFromArray(arr) {
+        let result = [];
+        for (let i = 0; i < arr.length; i++) {
+          let largestNum = arr[i][0];
+          for (let j = 1; j < arr[i].length; j++) {
+            if (arr[i][j] > largestNum) {
+              largestNum = arr[i][j];
+            }
+          }
+          result.push(largestNum);
+        }
+        return result;
+      }
+
+      let arr = [
+        [4, 2, 3, 5],
+        [34, 44, 56, 28],
+        [223, 321, 123, 443],
+        [1100, 1293, 3485, 4944],
+      ];
+
+      const ans = largestElementFromArray(arr);
+      document.getElementById("ans").innerHTML = `<span>${ans.join(
+        ", "
+      )}</span>`;
+
+      // document.getElementById("ans").textContent = ans.join(", ");
+    </script>
+  </body>
+</html>
