@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Repeat problem</title>
+  </head>
+  <body>
+    <div id="result"></div>
+    <script>
+      function repeatStr(str, times) {
+        if (times <= 0) {
+          return "";
+        }
+        let ans = "";
+        for (let i = 0; i < times; i++) {
+          ans += str;
+        }
+        return ans;
+      }
+
+      // Call the function
+      const repeatedString = repeatStr("raju", 3);
+
+      // Show result on page
+      document.getElementById("result").textContent = repeatedString;
+      console.log(repeatedString);
+    </script>
+  </body>
+</html>
