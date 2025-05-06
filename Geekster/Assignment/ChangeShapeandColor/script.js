@@ -18,6 +18,15 @@ const colors = [
   "gold",
   "tomato",
   "skyblue",
+  "teal",
+  "violet",
+  "coral",
+  "dodgerblue",
+  "limegreen",
+  "hotpink",
+  "indigo",
+  "slateblue",
+  "lightseagreen",
 ];
 
 const shapes = [
@@ -39,10 +48,20 @@ const shapes = [
 ];
 
 let shapeIndex = 0;
-let currentColor = circle.style.backgroundColor;
+// Set initial color from computed style
+let currentColor = getComputedStyle(circle).backgroundColor;
+
+function capitalizeWords(str) {
+  return str
+    .split(" ")
+    .map((word) => word[0].toUpperCase() + word.slice(1))
+    .join(" ");
+}
 
 function updateInfo() {
-  info.innerHTML = `<strong>Color:</strong> ${currentColor} <br><strong>Shape:</strong> ${shapes[shapeIndex].name}`;
+  const shapeName = shapes[shapeIndex].name;
+  const colorFormatted = capitalizeWords(currentColor);
+  info.innerHTML = `<strong>Color:</strong> ${colorFormatted} <br><strong>Shape:</strong> ${shapeName}`;
 }
 
 changeColorBtn.addEventListener("click", () => {
@@ -58,5 +77,5 @@ changeShapeBtn.addEventListener("click", () => {
   updateInfo();
 });
 
-// Initial info display
+// Initial setup
 updateInfo();
