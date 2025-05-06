@@ -8,6 +8,10 @@
   <body>
     <div onmouseover="console.log(`This is mouse over`)">This is new div</div>
     <p onmouseover="this.style.color='red'">Hover over me!</p>
+    <p onmouseout="this.style.color='white'">Mouse out of me!</p>
+    <p onmouseenter="this.style.fontSize='100px'">Mouse in!</p>
+    <input type="text" id="inputBox" placeholder="Type something" />
+    <input type="text" onchange="alert('Value changed!')" />
 
     <script src="./script.js"></script>
   </body>
