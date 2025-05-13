@@ -1,0 +1,30 @@
+#btn {
+  background: linear-gradient(
+    135deg,
+    #6e8efb,
+    #a777e3
+  ); /* Gradient background */
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  margin: 10px;
+  border-radius: 30px; /* Rounded corners */
+  cursor: pointer;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+}
+
+#btn:hover {
+  background: linear-gradient(135deg, #5b6ef8, #9e62e2);
+  transform: translateY(-3px); /* Lift effect on hover */
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
