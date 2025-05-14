@@ -1,0 +1,32 @@
+body {
+  font-family: "Courier New", Courier, monospace;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 32px;
+}
+
+.key-display {
+  background-color: #fff;
+  border: 3px solid green;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  color: #4caf50;
+  font-size: 24px;
+  display: inline-block;
+}
+footer {
+  font-size: 14px;
+  color: #999;
+}
