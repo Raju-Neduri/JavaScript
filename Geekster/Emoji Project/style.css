@@ -1,59 +1,173 @@
+/* style.css */
+
 * {
-  margin: 0;
-  padding: 0;
+  box-sizing: border-box;
 }
+
 body {
-  text-align: center;
-  font-family: sans-serif;
-  min-height: 100vh;
-  background: linear-gradient();
-  font-weight: 300;
-  display: Grid;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f2f5;
+  color: #333;
+  display: flex;
   justify-content: center;
+  padding: 40px 20px;
 }
 
 main {
-  display: grid;
-  grid-auto-flow: row;
-  align-items: center;
-  gap: 2em;
+  background: #fff;
+  width: 100%;
+  max-width: 900px; /* wider to accommodate single line form */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgb(0 0 0 / 0.1);
+  padding: 30px 40px 40px;
 }
 
 .main_title {
-  font-size: 1.5em;
-  width: 80%;
+  font-size: 2.4rem;
+  margin-bottom: 25px;
+  text-align: center;
+  color: #222;
+  letter-spacing: 1.5px;
 }
 
+/* Form styles: single line inputs + button */
 .main_form {
-  display: grid;
-  gap: 0.6em;
-  justify-content: center;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: nowrap;
 }
 
-input {
-  all: unset;
-  padding: 0.5em 0.8em;
-  width: 80%;
-  border: 1px solid green;
-  text-align: start;
-  color: #131313;
+.main_form input[type="text"],
+.main_form input[type="number"] {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
 }
 
-input:focus {
-  border-radius: 4px solid green;
+.main_form input[type="text"]:focus,
+.main_form input[type="number"]:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+}
+
+.main_form-submit-btn {
+  flex: 0 0 140px;
+  background-color: #007bff;
+  color: white;
+  padding: 14px 0;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.main_form-submit-btn:hover {
+  background-color: #0056b3;
 }
 
 .main_error-prompter {
-  color: #ff7864;
-  font-weight: 700;
-  display: none;
-  font-size: 1em;
+  color: #e74c3c;
+  font-weight: 600;
+  margin-bottom: 25px;
+  display: none; /* Hide initially */
+  text-align: center;
 }
 
-button.main_form-submit-btn {
-  all: unset;
-  background: lightgreen;
-  width: 60px;
-  height: 60px;
-  transition: all 0.5s ease;
+/* Scoreboard styles */
+.main_scoreboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.main_scoreboard {
+  background-color: #f9fafb;
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.main_scoreboard:hover {
+  box-shadow: 0 6px 15px rgb(0 0 0 / 0.1);
+}
+
+.main_scoreboard > div {
+  flex: 2;
+}
+
+.main_player-name {
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin: 0 0 4px;
+  color: #111;
+}
+
+.main_time-stamp {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 0;
+}
+
+.main_player-country {
+  flex: 1;
+  font-weight: 600;
+  color: #555;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.main_player-score {
+  flex: 0.6;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #007bff;
+  text-align: center;
+}
+
+.main_scoreboard-btn-container {
+  flex: 0.8;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.main_scoreboard-btn-container button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  user-select: none;
+}
+
+.main_scoreboard-btn-container button:first-child {
+  background-color: #e74c3c; /* Delete button in red */
+  font-size: 1.2rem;
+  padding: 8px 10px;
+}
+
+.main_scoreboard-btn-container button:hover {
+  background-color: #0056b3;
+}
+
+.main_scoreboard-btn-container button:first-child:hover {
+  background-color: #c0392b;
 }

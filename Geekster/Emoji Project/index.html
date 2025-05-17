@@ -7,64 +7,66 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <main><h1 class="main_title">Leaderboard</h1></main>
+    <main>
+      <h1 class="main_title">Leaderboard</h1>
 
-    <!-- form -->
-    <form class="main_form">
-      <input type="text" placeholder="First Name" />
-      <input type="text" placeholder="Last Name" />
-      <input type="text" placeholder="Country Name" />
-      <input type="number" placeholder="Player score" />
-      <button class="main_form-submit-btn">Add Player</button>
-    </form>
-    <p class="main_error-prompter">All fields are required</p>
+      <!-- form -->
+      <form class="main_form">
+        <input type="text" placeholder="First Name" />
+        <input type="text" placeholder="Last Name" />
+        <input type="text" placeholder="Country Name" />
+        <input type="number" placeholder="Player score" />
+        <button type="submit" class="main_form-submit-btn">Add Player</button>
+      </form>
+      <p class="main_error-prompter">All fields are required</p>
 
-    <!-- Display items -->
-    <div class="main_scoreboard-wrapper">
-      <div class="main_scoreboard">
-        <div>
-          <p class="main_player-name">Neduri Raju</p>
-          <p class="main_time-stamp">July 16 1998 04:30pm</p>
+      <!-- Display items -->
+      <div class="main_scoreboard-wrapper">
+        <div class="main_scoreboard">
+          <div>
+            <p class="main_player-name">Neduri Raju</p>
+            <p class="main_time-stamp">July 16 1998 04:30pm</p>
+          </div>
+          <p class="main_player-country">India</p>
+          <p class="main_player-score">85</p>
+          <div class="main_scoreboard-btn-container">
+            <button type="button">&#x1f5d1;</button>
+            <button type="button">+5</button>
+            <button type="button">-5</button>
+          </div>
         </div>
-        <p class="main_player-country">India</p>
-        <p class="main_player-score">85</p>
-        <div class="main_scoreboard-btn-container">
-          <button>&#x1f5d1;</button>
-          <button>+5</button>
-          <button>-5</button>
+
+        <!-- 2nd score -->
+        <div class="main_scoreboard">
+          <div>
+            <p class="main_player-name">Vaishnavi Uppula</p>
+            <p class="main_time-stamp">Oct 30 1999 11:30am</p>
+          </div>
+          <p class="main_player-country">India</p>
+          <p class="main_player-score">65</p>
+          <div class="main_scoreboard-btn-container">
+            <button type="button">&#x1f5d1;</button>
+            <button type="button">+5</button>
+            <button type="button">-5</button>
+          </div>
+        </div>
+
+        <!-- 3rd score -->
+        <div class="main_scoreboard">
+          <div>
+            <p class="main_player-name">Ram Neduri</p>
+            <p class="main_time-stamp">March 25 2027 08:30pm</p>
+          </div>
+          <p class="main_player-country">India</p>
+          <p class="main_player-score">100</p>
+          <div class="main_scoreboard-btn-container">
+            <button type="button">&#x1f5d1;</button>
+            <button type="button">+5</button>
+            <button type="button">-5</button>
+          </div>
         </div>
       </div>
-
-      <!-- 2nd score -->
-      <div class="main_scoreboard">
-        <div>
-          <p class="main_player-name">Vaishnavi Uppula</p>
-          <p class="main_time-stamp">Oct 30 1999 11:30am</p>
-        </div>
-        <p class="main_player-country">India</p>
-        <p class="main_player-score">65</p>
-        <div class="main_scoreboard-btn-container">
-          <button>&#x1f5d1;</button>
-          <button>+5</button>
-          <button>-5</button>
-        </div>
-      </div>
-
-      <!-- 3rd score -->
-      <div class="main_scoreboard">
-        <div>
-          <p class="main_player-name">Ram Neduri</p>
-          <p class="main_time-stamp">March 25 2027 08:30pm</p>
-        </div>
-        <p class="main_player-country">India</p>
-        <p class="main_player-score">100</p>
-        <div class="main_scoreboard-btn-container">
-          <button>&#x1f5d1;</button>
-          <button>+5</button>
-          <button>-5</button>
-        </div>
-      </div>
-    </div>
+    </main>
     <script src="script.js"></script>
   </body>
 </html>
