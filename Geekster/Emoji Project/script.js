@@ -69,7 +69,7 @@ function getSortedPlayers() {
   return sortedPlayers;
 }
 
-// Main render function
+// Main render function with improved rank+score movement tracking
 function renderPlayers() {
   ensurePlayerIds();
 
@@ -92,32 +92,52 @@ function renderPlayers() {
 
     const prevRankEntry = rankData[player.id];
 
-    // Default arrow is no change
+    // Default movement arrow is no change
     let movement = "–";
 
     if (!prevRankEntry) {
-      // First time seeing player — no movement
+      // First time, no previous data
       movement = "–";
-      rankData[player.id] = { rank: currentRank, movement: movement };
+      rankData[player.id] = {
+        rank: currentRank,
+        score: player.score,
+        movement: movement,
+      };
     } else {
-      // Compare old rank with current to decide arrow
+      // Compare current and previous rank and score
       if (currentRank < prevRankEntry.rank) {
+        // Improved rank
         movement = "▲";
       } else if (currentRank > prevRankEntry.rank) {
+        // Worse rank
         movement = "▼";
       } else {
-        // Same rank — keep last movement arrow
-        movement = prevRankEntry.movement || "–";
+        // Rank same, check score change
+        if (player.score > (prevRankEntry.score ?? player.score)) {
+          movement = "▲";
+        } else if (player.score < (prevRankEntry.score ?? player.score)) {
+          movement = "▼";
+        } else {
+          // No change in score or rank, keep previous movement
+          movement = prevRankEntry.movement || "–";
+        }
       }
-      // Update movement but DO NOT update rank here; rank updates after render
+      // Update stored movement and score for next render
       rankData[player.id].movement = movement;
+      rankData[player.id].score = player.score;
+      rankData[player.id].rank = currentRank;
     }
 
     const playerRow = document.createElement("div");
     playerRow.className = "main_scoreboard fade-in";
 
-    // Left container: rank + arrow + info
+    // Left container with rank + arrow + player info
     const leftDiv = document.createElement("div");
+    leftDiv.style.display = "flex";
+    leftDiv.style.alignItems = "center";
+    leftDiv.style.gap = "1rem";
+    leftDiv.style.flexGrow = "1";
+    leftDiv.style.minWidth = "0";
 
     // Rank display: crown for 1st, number otherwise
     const rankSpan = document.createElement("span");
@@ -141,28 +161,41 @@ function renderPlayers() {
         : "arrow-placeholder";
     leftDiv.appendChild(movementSpan);
 
-    // Player name + gender + timestamp container
+    // Player name + timestamp container
     const playerInfo = document.createElement("div");
-    const nameGenderDiv = document.createElement("div");
+    playerInfo.style.display = "flex";
+    playerInfo.style.flexDirection = "column";
+    playerInfo.style.minWidth = "0";
 
     const playerName = document.createElement("span");
     playerName.className = "main_player-name";
     playerName.textContent = player.firstName + " " + player.lastName;
-    nameGenderDiv.appendChild(playerName);
-
-    const playerGender = document.createElement("span");
-    playerGender.textContent = player.gender;
-    nameGenderDiv.appendChild(playerGender);
-
-    playerInfo.appendChild(nameGenderDiv);
+    playerName.style.whiteSpace = "nowrap";
+    playerName.style.overflow = "hidden";
+    playerName.style.textOverflow = "ellipsis";
+    playerInfo.appendChild(playerName);
 
     const timeStamp = document.createElement("span");
     timeStamp.className = "main_time-stamp";
     timeStamp.textContent = new Date(player.timestamp).toLocaleString();
+    timeStamp.style.fontSize = "0.85rem";
+    timeStamp.style.color = "#666";
+    timeStamp.style.marginTop = "4px";
     playerInfo.appendChild(timeStamp);
 
     leftDiv.appendChild(playerInfo);
     playerRow.appendChild(leftDiv);
+
+    // Gender column (new column)
+    const genderSpan = document.createElement("span");
+    genderSpan.className = "main_player-gender";
+    genderSpan.textContent = player.gender;
+    genderSpan.style.fontWeight = "600";
+    genderSpan.style.fontSize = "1rem";
+    genderSpan.style.color = "#666";
+    genderSpan.style.minWidth = "60px";
+    genderSpan.style.textAlign = "center";
+    playerRow.appendChild(genderSpan);
 
     // Country display (uppercase)
     const countrySpan = document.createElement("span");
@@ -232,15 +265,6 @@ function renderPlayers() {
     playerRow.appendChild(btnContainer);
 
     scoreboardWrapper.appendChild(playerRow);
-  });
-
-  // Update stored ranks *after* rendering for next comparison
-  Object.entries(currentRanks).forEach(([id, rank]) => {
-    if (!rankData[id]) {
-      rankData[id] = { rank: rank, movement: "–" };
-    } else {
-      rankData[id].rank = rank;
-    }
   });
 
   saveRankData();
