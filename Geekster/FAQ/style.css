@@ -1,3 +1,6 @@
+/*==================================================
+  1. IMPORTS & RESET
+==================================================*/
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 
 * {
@@ -7,37 +10,101 @@
   font-family: "Poppins", sans-serif;
 }
 
+/*==================================================
+  2. BASE LAYOUT
+==================================================*/
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   min-height: 100vh;
+  width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: blueviolet;
-  padding: 20px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
 }
 
+body::before,
+body::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.2;
+  z-index: 0;
+}
+
+body::before {
+  width: 300px;
+  height: 300px;
+  background: #ffffff;
+  top: -50px;
+  left: -50px;
+}
+
+body::after {
+  width: 450px;
+  height: 400px;
+  background: #ffffff;
+  bottom: -100px;
+  right: -80px;
+}
+
+/*==================================================
+  3. ACCORDION CONTAINER
+==================================================*/
 .accordion {
   display: flex;
   flex-wrap: wrap;
-  gap: 60px;
-  background-color: #fff;
+  gap: 20px;
+  background-color: #ffffff;
   border-radius: 25px;
-  padding: 45px 60px;
+  padding: 35px 45px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 1;
+  width: 95%;
+  max-width: 1400px;
+  max-height: 90vh;
+  overflow: hidden;
+  justify-content: center;
 }
 
+/*==================================================
+  4. IMAGE COLUMN
+==================================================*/
 .accordion .image-box {
-  height: 500px;
-  width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 600px;
+  width: 550px;
+  max-height: none;
 }
 
 .accordion .image-box img {
-  height: 100%;
-  width: 100%;
+  height: 600px;
+  width: 550px;
   object-fit: contain;
 }
 
+/*==================================================
+  5. FAQ TEXT COLUMN
+==================================================*/
 .accordion-text {
-  max-width: 600px;
+  flex: 1;
+  max-width: 650px;
+  height: 100%;
+  max-height: calc(90vh - 70px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 12px;
 }
 
 .accordion-text .title {
@@ -45,6 +112,11 @@ body {
   font-weight: 600;
   margin-bottom: 25px;
   color: #333;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 10;
+  padding-bottom: 10px;
 }
 
 .faq-list {
@@ -54,7 +126,14 @@ body {
 .faq-list li {
   margin-bottom: 20px;
   border-bottom: 1px solid #ccc;
-  padding-bottom: 15px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 15px;
+  transition: background 0.3s ease;
+}
+
+.faq-list li:hover {
+  background-color: #eef0f3;
 }
 
 .question-arrow {
@@ -70,15 +149,26 @@ body {
   color: #222;
 }
 
-.question-arrow i {
+.question-arrow .arrow {
   transition: transform 0.3s ease;
+}
+
+.question-arrow .arrow.rotate {
+  transform: rotate(180deg);
 }
 
 .answer {
   font-size: 15px;
   color: #555;
   margin-top: 10px;
-  display: none;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, margin-top 0.3s ease;
+}
+
+.answer.show {
+  max-height: 300px;
+  margin-top: 15px;
 }
 
 .line {
@@ -86,4 +176,69 @@ body {
   height: 1px;
   background-color: #ddd;
   margin-top: 10px;
+}
+
+/* Custom scrollbar for accordion-text */
+.accordion-text::-webkit-scrollbar {
+  width: 8px;
+}
+
+.accordion-text::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.accordion-text::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.accordion-text::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/*==================================================
+  6. RESPONSIVE FIX: STACK ON SMALL SCREENS
+==================================================*/
+@media (max-width: 1024px) {
+  html,
+  body {
+    overflow: auto;
+  }
+
+  .accordion {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .accordion .image-box {
+    width: 100% !important;
+    height: auto !important;
+    margin-bottom: 20px;
+  }
+
+  .accordion .image-box img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 300px;
+    object-fit: contain;
+  }
+
+  .accordion-text {
+    width: 100% !important;
+    max-width: 100%;
+    height: auto;
+    max-height: none !important;
+    overflow-y: visible !important;
+    padding-right: 0;
+  }
+
+  .accordion-text .title {
+    font-size: 30px;
+    position: static;
+    background: transparent;
+  }
 }
