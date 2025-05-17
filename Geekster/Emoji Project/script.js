@@ -215,6 +215,7 @@ function renderPlayers() {
       if (player.score > 0) {
         player.score--;
         player.timestamp = Date.now();
+        sortSelect.value = "score"; // Change sort to score on click
         savePlayers();
         renderPlayers();
       }
@@ -230,6 +231,7 @@ function renderPlayers() {
       e.stopPropagation();
       player.score++;
       player.timestamp = Date.now();
+      sortSelect.value = "score"; // Change sort to score on click
       savePlayers();
       renderPlayers();
     });
@@ -256,6 +258,9 @@ function renderPlayers() {
         // Remove rankData for deleted player
         delete rankData[player.id];
         saveRankData();
+
+        // Also switch sort to score after deletion
+        sortSelect.value = "score";
 
         renderPlayers();
       }, 400);
