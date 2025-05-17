@@ -444,18 +444,186 @@ span.gender {
     font-size: 1.4rem;
   }
 }
-
-/* TABLET / SMALL DESKTOP STYLES (481px - 720px) */
 @media (min-width: 481px) and (max-width: 720px) {
+  /* Form inputs and selects */
   .main_form input,
   .main_form select,
   .main_form-submit-btn {
     width: 90%;
     padding: 14px 16px;
+    font-size: 1.1rem;
+    height: 52px;
   }
 
-  .main_scoreboard {
-    padding: 16px 20px;
-    gap: 12px;
+  /* Search & sort bar */
+  #searchInput,
+  #sortSelect {
+    width: 90%;
+    padding: 14px 16px;
+    font-size: 1.1rem;
+    height: 52px;
   }
+
+  /* Main title */
+  .main_title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  /* Scoreboard layout */
+  .main_scoreboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 14px;
+  }
+
+  /* Rank and arrow column */
+  .main_scoreboard > div:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 6px;
+  }
+
+  .main_player-rank,
+  .arrow-up,
+  .arrow-down,
+  .arrow-placeholder {
+    text-align: center;
+  }
+
+  /* Player name and time */
+  .main_scoreboard > div:first-child > div:nth-child(2),
+  .main_player-name,
+  .main_time-stamp {
+    text-align: center;
+    width: 100%;
+  }
+
+  .main_player-name {
+    font-size: 1.2rem;
+  }
+
+  .main_time-stamp {
+    font-size: 0.85rem;
+  }
+
+  /* Gender */
+  .main_scoreboard span.gender {
+    display: block;
+    text-align: center;
+    width: 100%;
+    font-size: 1.05rem;
+  }
+
+  /* Country */
+  .main_player-country {
+    display: block;
+    text-align: center;
+    width: 100%;
+    font-size: 1.05rem;
+    padding-right: 0.7rem;
+  }
+
+  /* Score and buttons */
+  .main_player-score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background: #eef3fa;
+    padding: 10px;
+    gap: 14px;
+    border-radius: 6px;
+  }
+
+  .main_player-score span {
+    font-size: 1.1rem;
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .main_player-score button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.4rem;
+  }
+
+  /* Delete button */
+  .main_scoreboard-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 6px;
+  }
+
+  .main_scoreboard-btn-container button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    font-size: 1.4rem;
+    margin: 0 auto;
+    padding-right: 1rem;
+  }
+}
+
+/* Toggle Button */
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #ffffffcc;
+  color: #222;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.light-mode {
+  background: linear-gradient(135deg, #c9d6ff, #e2e2e2);
+  color: #333;
+}
+
+body.dark-mode {
+  background: linear-gradient(135deg, #232526, #414345);
+  color: #eee;
+}
+
+body.dark-mode main {
+  background: #2c2f33;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .main_scoreboard {
+  background: linear-gradient(120deg, #3a3f47, #2c2f33);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .theme-toggle {
+  background: #444;
+  color: #fff;
+}
+
+/* Dark mode adjustments */
+body.dark-mode .main_title {
+  color: #f1f1f1;
+}
+
+body.dark-mode .gender {
+  color: #ccc;
+}
+
+body.dark-mode .main_player-country {
+  color: #ddd;
 }
