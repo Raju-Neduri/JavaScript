@@ -7,7 +7,7 @@
 }
 
 body {
-  background: #f5f7fa;
+  background: linear-gradient(135deg, #c9d6ff, #e2e2e2);
   color: #333;
   display: flex;
   justify-content: center;
@@ -15,7 +15,6 @@ body {
   min-height: 100vh;
 }
 
-/* Main Container */
 main {
   width: 100%;
   max-width: 900px;
@@ -23,6 +22,27 @@ main {
   border-radius: 12px;
   padding: 32px 40px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative; /* For absolute positioning of toggle button */
+}
+.theme-toggle-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: #0078d4; /* Blue color */
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 6px 10px;
+  transition: color 0.3s ease;
+  z-index: 1000;
+  outline-offset: 2px;
+}
+
+.theme-toggle-btn:hover,
+.theme-toggle-btn:focus {
+  color: #005a9e; /* Darker blue on hover/focus */
+  outline: none;
 }
 
 /* Title */
@@ -118,7 +138,7 @@ main {
 
 /* Player Row */
 .main_scoreboard {
-  background: #e5ebf0;
+  background: linear-gradient(120deg, #f6f9fc, #dbe9ff);
   border-radius: 12px;
   padding: 18px 24px;
   display: flex;
@@ -192,7 +212,7 @@ main {
 span.gender {
   font-weight: 600;
   font-size: 1rem;
-  color: #666;
+  color: #b7b1b1;
   min-width: 50px;
   text-align: center;
 }
@@ -302,7 +322,6 @@ span.gender {
     width: 100% !important;
     height: 50px !important;
     line-height: 50px !important;
-
     font-size: 1rem;
   }
 
@@ -426,131 +445,17 @@ span.gender {
   }
 }
 
+/* TABLET / SMALL DESKTOP STYLES (481px - 720px) */
 @media (min-width: 481px) and (max-width: 720px) {
-  /* Form inputs and selects */
   .main_form input,
   .main_form select,
   .main_form-submit-btn {
     width: 90%;
     padding: 14px 16px;
-    font-size: 1.1rem;
-    height: 52px;
   }
 
-  /* Search & sort bar */
-  #searchInput,
-  #sortSelect {
-    width: 90%;
-    padding: 14px 16px;
-    font-size: 1.1rem;
-    height: 52px;
-  }
-
-  /* Main title */
-  .main_title {
-    font-size: 2rem;
-    text-align: center;
-  }
-
-  /* Scoreboard layout */
   .main_scoreboard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    padding: 14px;
-  }
-
-  /* Rank and arrow column */
-  .main_scoreboard > div:first-child {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    gap: 6px;
-  }
-
-  .main_player-rank,
-  .arrow-up,
-  .arrow-down,
-  .arrow-placeholder {
-    text-align: center;
-  }
-
-  /* Player name and time */
-  .main_scoreboard > div:first-child > div:nth-child(2),
-  .main_player-name,
-  .main_time-stamp {
-    text-align: center;
-    width: 100%;
-  }
-
-  .main_player-name {
-    font-size: 1.2rem;
-  }
-
-  .main_time-stamp {
-    font-size: 0.85rem;
-  }
-
-  /* Gender */
-  .main_scoreboard span.gender {
-    display: block;
-    text-align: center;
-    width: 100%;
-    font-size: 1.05rem;
-  }
-
-  /* Country */
-  .main_player-country {
-    display: block;
-    text-align: center;
-    width: 100%;
-    font-size: 1.05rem;
-    padding-right: 0.7rem;
-  }
-
-  /* Score and buttons */
-  .main_player-score {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    background: #eef3fa;
-    padding: 10px;
-    gap: 14px;
-    border-radius: 6px;
-  }
-
-  .main_player-score span {
-    font-size: 1.1rem;
-    min-width: 40px;
-    text-align: center;
-  }
-
-  .main_player-score button {
-    width: 40px;
-    height: 40px;
-    font-size: 1.4rem;
-  }
-
-  /* Delete button */
-  .main_scoreboard-btn-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 6px;
-  }
-
-  .main_scoreboard-btn-container button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    font-size: 1.4rem;
-    margin: 0 auto;
-    padding-right: 1rem;
+    padding: 16px 20px;
+    gap: 12px;
   }
 }
