@@ -4,6 +4,7 @@ const lastNameInput = document.getElementById("lastName");
 const genderInput = document.getElementById("gender");
 const countryInput = document.getElementById("country");
 const scoreInput = document.getElementById("score");
+const submitBtn = document.querySelector(".main_form-submit-btn");
 const errorPrompter = document.querySelector(".main_error-prompter");
 const scoreboardWrapper = document.querySelector(".main_scoreboard-wrapper");
 const searchInput = document.getElementById("searchInput");
@@ -11,12 +12,10 @@ const sortSelect = document.getElementById("sortSelect");
 
 let players = JSON.parse(localStorage.getItem("players")) || [];
 
-// Save players to localStorage
 function savePlayers() {
   localStorage.setItem("players", JSON.stringify(players));
 }
 
-// Show error message for 3 seconds
 function showError(message) {
   errorPrompter.textContent = message;
   errorPrompter.style.display = "block";
@@ -25,23 +24,26 @@ function showError(message) {
   }, 3000);
 }
 
-// Capitalize first letter and lowercase rest
 function formatName(name) {
   if (!name) return "";
   return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 }
 
-// Validate country input (letters and spaces only)
 function isValidCountry(country) {
   return /^[a-zA-Z\s]+$/.test(country);
 }
 
-// Render the leaderboard with sorting and filtering
+// Returns the arrow symbol based on score change (up/down/no change)
+function getArrowSymbol(diff) {
+  if (diff > 0) return "▲";
+  else if (diff < 0) return "▼";
+  else return "–";
+}
+
 function renderPlayers() {
-  // Sort players by selected option
+  // Sort players according to current sort
   let sortedPlayers = [...players];
   const sortVal = sortSelect.value;
-
   if (sortVal === "name") {
     sortedPlayers.sort((a, b) =>
       (a.firstName + a.lastName).localeCompare(b.firstName + b.lastName)
@@ -52,7 +54,7 @@ function renderPlayers() {
     sortedPlayers.sort((a, b) => b.score - a.score);
   }
 
-  // Filter players by search (name or country)
+  // Filter players by search input (name or country)
   const filterText = searchInput.value.toLowerCase().trim();
   const filteredPlayers = sortedPlayers.filter(
     (p) =>
@@ -63,33 +65,33 @@ function renderPlayers() {
   scoreboardWrapper.innerHTML = "";
 
   filteredPlayers.forEach((player, index) => {
-    // Calculate score change arrow
     if (player.prevScore === undefined) player.prevScore = player.score;
-    const diff = player.score - player.prevScore;
+    const scoreDiff = player.score - player.prevScore;
     player.prevScore = player.score;
 
     const playerRow = document.createElement("div");
     playerRow.classList.add("main_scoreboard", "fade-in");
 
-    // Rank + crown for first place
+    // Rank + arrow for movement
     const leftDiv = document.createElement("div");
 
+    // Rank number or crown
     const rankSpan = document.createElement("span");
     rankSpan.classList.add("main_player-rank");
     if (index === 0) {
-      rankSpan.textContent = "👑"; // crown icon
+      rankSpan.textContent = "👑";
       rankSpan.style.fontSize = "1.3rem";
     } else {
       rankSpan.textContent = index + 1;
     }
     leftDiv.appendChild(rankSpan);
 
-    // Movement arrow for score change
+    // Movement arrow
     const movementArrow = document.createElement("span");
-    if (diff > 0) {
+    if (scoreDiff > 0) {
       movementArrow.className = "arrow-up";
       movementArrow.textContent = "▲";
-    } else if (diff < 0) {
+    } else if (scoreDiff < 0) {
       movementArrow.className = "arrow-down";
       movementArrow.textContent = "▼";
     } else {
@@ -98,9 +100,8 @@ function renderPlayers() {
     }
     leftDiv.appendChild(movementArrow);
 
-    // Player name and gender
+    // Player info container
     const playerInfo = document.createElement("div");
-
     const nameGenderDiv = document.createElement("div");
 
     const playerName = document.createElement("span");
@@ -114,7 +115,6 @@ function renderPlayers() {
 
     playerInfo.appendChild(nameGenderDiv);
 
-    // Timestamp
     const timeStamp = document.createElement("span");
     timeStamp.classList.add("main_time-stamp");
     timeStamp.textContent = new Date(player.timestamp).toLocaleString();
@@ -123,13 +123,13 @@ function renderPlayers() {
     leftDiv.appendChild(playerInfo);
     playerRow.appendChild(leftDiv);
 
-    // Country
+    // Country (uppercase)
     const countrySpan = document.createElement("span");
     countrySpan.classList.add("main_player-country");
-    countrySpan.textContent = player.country;
+    countrySpan.textContent = player.country.toUpperCase();
     playerRow.appendChild(countrySpan);
 
-    // Score with +/- buttons
+    // Score controls
     const scoreDiv = document.createElement("div");
     scoreDiv.classList.add("main_player-score");
 
@@ -161,19 +161,16 @@ function renderPlayers() {
     scoreDiv.appendChild(decreaseBtn);
     scoreDiv.appendChild(scoreSpan);
     scoreDiv.appendChild(increaseBtn);
-
     playerRow.appendChild(scoreDiv);
 
     // Delete button
     const btnContainer = document.createElement("div");
     btnContainer.classList.add("main_scoreboard-btn-container");
-
     const deleteBtn = document.createElement("button");
     deleteBtn.innerHTML = "🗑️";
     deleteBtn.title = "Delete player";
     deleteBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      // Fade out animation then remove player
       playerRow.classList.add("fade-out");
       setTimeout(() => {
         players = players.filter((p) => p !== player);
@@ -181,7 +178,6 @@ function renderPlayers() {
         renderPlayers();
       }, 400);
     });
-
     btnContainer.appendChild(deleteBtn);
     playerRow.appendChild(btnContainer);
 
@@ -208,7 +204,7 @@ form.addEventListener("submit", (e) => {
     return;
   }
 
-  // Check for duplicate full name (case insensitive)
+  // Check duplicates (case-insensitive)
   const exists = players.some(
     (p) =>
       p.firstName.toLowerCase() === firstName.toLowerCase() &&
@@ -232,7 +228,7 @@ form.addEventListener("submit", (e) => {
   savePlayers();
   renderPlayers();
 
-  // Clear inputs
+  // Clear form inputs
   firstNameInput.value = "";
   lastNameInput.value = "";
   genderInput.value = "";
@@ -240,9 +236,7 @@ form.addEventListener("submit", (e) => {
   scoreInput.value = "";
 });
 
-// Update leaderboard on search or sort change
 searchInput.addEventListener("input", renderPlayers);
 sortSelect.addEventListener("change", renderPlayers);
 
-// Initial render
 renderPlayers();
