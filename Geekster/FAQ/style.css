@@ -16,6 +16,7 @@
 html {
   height: 100%;
   overflow: hidden;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -204,6 +205,8 @@ body::after {
   html,
   body {
     overflow: auto;
+
+    padding-top: 5px; /* Add space at the top */
   }
 
   .accordion {
@@ -212,6 +215,8 @@ body::after {
     padding: 20px;
     max-height: none;
     overflow: visible;
+
+    margin-top: 10px;
   }
 
   .accordion .image-box {
