@@ -11,12 +11,11 @@ const searchInput = document.getElementById("searchInput");
 const sortSelect = document.getElementById("sortSelect");
 
 let players = JSON.parse(localStorage.getItem("players")) || [];
-// Store previous rankings by player id (we'll generate IDs)
-let previousRanks = {};
+let rankData = JSON.parse(localStorage.getItem("rankData")) || {};
 
-// Utility: assign unique ID to each player if not exists (for tracking)
+// Assign unique IDs to players if missing
 function ensurePlayerIds() {
-  players.forEach((p, i) => {
+  players.forEach((p) => {
     if (!p.id) {
       p.id =
         "player_" + Date.now() + "_" + Math.random().toString(36).slice(2, 10);
@@ -24,9 +23,14 @@ function ensurePlayerIds() {
   });
 }
 
-// Save to localStorage
+// Save players list to localStorage
 function savePlayers() {
   localStorage.setItem("players", JSON.stringify(players));
+}
+
+// Save rankData to localStorage
+function saveRankData() {
+  localStorage.setItem("rankData", JSON.stringify(rankData));
 }
 
 // Show error message temporarily
@@ -44,15 +48,13 @@ function formatName(name) {
   return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 }
 
-// Check country contains only letters and spaces
+// Validate country: only letters and spaces
 function isValidCountry(country) {
   return /^[a-zA-Z\s]+$/.test(country);
 }
 
-function renderPlayers() {
-  ensurePlayerIds();
-
-  // Sort players according to current sort
+// Sort players based on selection
+function getSortedPlayers() {
   let sortedPlayers = [...players];
   const sortVal = sortSelect.value;
   if (sortVal === "name") {
@@ -64,66 +66,87 @@ function renderPlayers() {
   } else if (sortVal === "score") {
     sortedPlayers.sort((a, b) => b.score - a.score);
   }
+  return sortedPlayers;
+}
 
-  // Filter players by search input (name or country)
+// Main render function
+function renderPlayers() {
+  ensurePlayerIds();
+
+  const sorted = getSortedPlayers();
   const filterText = searchInput.value.toLowerCase().trim();
-  const filteredPlayers = sortedPlayers.filter(
+  const filtered = sorted.filter(
     (p) =>
       (p.firstName + " " + p.lastName).toLowerCase().includes(filterText) ||
       p.country.toLowerCase().includes(filterText)
   );
 
-  // Create a map of current ranks by player id
-  const currentRanks = {};
-  filteredPlayers.forEach((p, idx) => {
-    currentRanks[p.id] = idx + 1;
-  });
-
   scoreboardWrapper.innerHTML = "";
 
-  filteredPlayers.forEach((player, index) => {
-    // Calculate rank movement compared to previousRanks
-    let prevRank = previousRanks[player.id];
-    if (prevRank === undefined) prevRank = index + 1; // If no previous rank, assume same as current
-    const rankDiff = prevRank - (index + 1); // positive means moved up, negative down
+  // Temporary store current ranks for updating rankData AFTER rendering
+  const currentRanks = {};
+
+  filtered.forEach((player, index) => {
+    const currentRank = index + 1;
+    currentRanks[player.id] = currentRank;
+
+    const prevRankEntry = rankData[player.id];
+
+    // Default arrow is no change
+    let movement = "–";
+
+    if (!prevRankEntry) {
+      // First time seeing player — no movement
+      movement = "–";
+      rankData[player.id] = { rank: currentRank, movement: movement };
+    } else {
+      // Compare old rank with current to decide arrow
+      if (currentRank < prevRankEntry.rank) {
+        movement = "▲";
+      } else if (currentRank > prevRankEntry.rank) {
+        movement = "▼";
+      } else {
+        // Same rank — keep last movement arrow
+        movement = prevRankEntry.movement || "–";
+      }
+      // Update movement but DO NOT update rank here; rank updates after render
+      rankData[player.id].movement = movement;
+    }
 
     const playerRow = document.createElement("div");
-    playerRow.classList.add("main_scoreboard", "fade-in");
+    playerRow.className = "main_scoreboard fade-in";
 
-    // Rank + movement arrow
+    // Left container: rank + arrow + info
     const leftDiv = document.createElement("div");
 
-    // Rank number or crown
+    // Rank display: crown for 1st, number otherwise
     const rankSpan = document.createElement("span");
-    rankSpan.classList.add("main_player-rank");
+    rankSpan.className = "main_player-rank";
     if (index === 0) {
       rankSpan.textContent = "👑";
       rankSpan.style.fontSize = "1.3rem";
     } else {
-      rankSpan.textContent = index + 1;
+      rankSpan.textContent = currentRank;
     }
     leftDiv.appendChild(rankSpan);
 
-    // Movement arrow for rank changes
-    const movementArrow = document.createElement("span");
-    if (rankDiff > 0) {
-      movementArrow.className = "arrow-up";
-      movementArrow.textContent = "▲";
-    } else if (rankDiff < 0) {
-      movementArrow.className = "arrow-down";
-      movementArrow.textContent = "▼";
-    } else {
-      movementArrow.className = "arrow-placeholder";
-      movementArrow.textContent = "–";
-    }
-    leftDiv.appendChild(movementArrow);
+    // Movement arrow span
+    const movementSpan = document.createElement("span");
+    movementSpan.textContent = movement;
+    movementSpan.className =
+      movement === "▲"
+        ? "arrow-up"
+        : movement === "▼"
+        ? "arrow-down"
+        : "arrow-placeholder";
+    leftDiv.appendChild(movementSpan);
 
-    // Player info container
+    // Player name + gender + timestamp container
     const playerInfo = document.createElement("div");
     const nameGenderDiv = document.createElement("div");
 
     const playerName = document.createElement("span");
-    playerName.classList.add("main_player-name");
+    playerName.className = "main_player-name";
     playerName.textContent = player.firstName + " " + player.lastName;
     nameGenderDiv.appendChild(playerName);
 
@@ -134,22 +157,22 @@ function renderPlayers() {
     playerInfo.appendChild(nameGenderDiv);
 
     const timeStamp = document.createElement("span");
-    timeStamp.classList.add("main_time-stamp");
+    timeStamp.className = "main_time-stamp";
     timeStamp.textContent = new Date(player.timestamp).toLocaleString();
     playerInfo.appendChild(timeStamp);
 
     leftDiv.appendChild(playerInfo);
     playerRow.appendChild(leftDiv);
 
-    // Country (uppercase)
+    // Country display (uppercase)
     const countrySpan = document.createElement("span");
-    countrySpan.classList.add("main_player-country");
+    countrySpan.className = "main_player-country";
     countrySpan.textContent = player.country.toUpperCase();
     playerRow.appendChild(countrySpan);
 
-    // Score controls
+    // Score controls: decrease, score display, increase
     const scoreDiv = document.createElement("div");
-    scoreDiv.classList.add("main_player-score");
+    scoreDiv.className = "main_player-score";
 
     const decreaseBtn = document.createElement("button");
     decreaseBtn.textContent = "-";
@@ -158,6 +181,7 @@ function renderPlayers() {
       e.stopPropagation();
       if (player.score > 0) {
         player.score--;
+        player.timestamp = Date.now();
         savePlayers();
         renderPlayers();
       }
@@ -172,6 +196,7 @@ function renderPlayers() {
     increaseBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       player.score++;
+      player.timestamp = Date.now();
       savePlayers();
       renderPlayers();
     });
@@ -181,9 +206,10 @@ function renderPlayers() {
     scoreDiv.appendChild(increaseBtn);
     playerRow.appendChild(scoreDiv);
 
-    // Delete button
+    // Delete button container
     const btnContainer = document.createElement("div");
-    btnContainer.classList.add("main_scoreboard-btn-container");
+    btnContainer.className = "main_scoreboard-btn-container";
+
     const deleteBtn = document.createElement("button");
     deleteBtn.innerHTML = "🗑️";
     deleteBtn.title = "Delete player";
@@ -193,19 +219,34 @@ function renderPlayers() {
       setTimeout(() => {
         players = players.filter((p) => p !== player);
         savePlayers();
+
+        // Remove rankData for deleted player
+        delete rankData[player.id];
+        saveRankData();
+
         renderPlayers();
       }, 400);
     });
+
     btnContainer.appendChild(deleteBtn);
     playerRow.appendChild(btnContainer);
 
     scoreboardWrapper.appendChild(playerRow);
   });
 
-  // Update previousRanks for next render
-  previousRanks = currentRanks;
+  // Update stored ranks *after* rendering for next comparison
+  Object.entries(currentRanks).forEach(([id, rank]) => {
+    if (!rankData[id]) {
+      rankData[id] = { rank: rank, movement: "–" };
+    } else {
+      rankData[id].rank = rank;
+    }
+  });
+
+  saveRankData();
 }
 
+// Form submit handler
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -225,7 +266,7 @@ form.addEventListener("submit", (e) => {
     return;
   }
 
-  // Check duplicates by full name (case-insensitive)
+  // Check for duplicates by full name (case-insensitive)
   const exists = players.some(
     (p) =>
       p.firstName.toLowerCase() === firstName.toLowerCase() &&
@@ -257,7 +298,9 @@ form.addEventListener("submit", (e) => {
   scoreInput.value = "";
 });
 
+// Render on search input change
 searchInput.addEventListener("input", renderPlayers);
+// Render on sort selection change
 sortSelect.addEventListener("change", renderPlayers);
 
 // Initial render
