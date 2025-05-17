@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Leaderboard</title>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -10,63 +10,68 @@
     <main>
       <h1 class="main_title">Leaderboard</h1>
 
-      <!-- form -->
-      <form class="main_form">
-        <input type="text" placeholder="First Name" />
-        <input type="text" placeholder="Last Name" />
-        <input type="text" placeholder="Country Name" />
-        <input type="number" placeholder="Player score" />
+      <!-- Form to add player -->
+      <form class="main_form" autocomplete="off">
+        <input
+          id="firstName"
+          type="text"
+          name="firstName"
+          placeholder="First Name"
+          required
+        />
+        <input
+          id="lastName"
+          type="text"
+          name="lastName"
+          placeholder="Last Name"
+          required
+        />
+        <select id="gender" name="gender" required>
+          <option value="" disabled selected>Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+        <input
+          id="country"
+          type="text"
+          name="country"
+          placeholder="Country"
+          required
+        />
+        <input
+          id="score"
+          type="number"
+          name="score"
+          placeholder="Score"
+          min="0"
+          required
+        />
         <button type="submit" class="main_form-submit-btn">Add Player</button>
       </form>
-      <p class="main_error-prompter">All fields are required</p>
 
-      <!-- Display items -->
-      <div class="main_scoreboard-wrapper">
-        <div class="main_scoreboard">
-          <div>
-            <p class="main_player-name">Neduri Raju</p>
-            <p class="main_time-stamp">July 16 1998 04:30pm</p>
-          </div>
-          <p class="main_player-country">India</p>
-          <p class="main_player-score">85</p>
-          <div class="main_scoreboard-btn-container">
-            <button type="button">&#x1f5d1;</button>
-            <button type="button">+5</button>
-            <button type="button">-5</button>
-          </div>
-        </div>
+      <!-- Error message -->
+      <div class="main_error-prompter"></div>
 
-        <!-- 2nd score -->
-        <div class="main_scoreboard">
-          <div>
-            <p class="main_player-name">Vaishnavi Uppula</p>
-            <p class="main_time-stamp">Oct 30 1999 11:30am</p>
-          </div>
-          <p class="main_player-country">India</p>
-          <p class="main_player-score">65</p>
-          <div class="main_scoreboard-btn-container">
-            <button type="button">&#x1f5d1;</button>
-            <button type="button">+5</button>
-            <button type="button">-5</button>
-          </div>
-        </div>
-
-        <!-- 3rd score -->
-        <div class="main_scoreboard">
-          <div>
-            <p class="main_player-name">Ram Neduri</p>
-            <p class="main_time-stamp">March 25 2027 08:30pm</p>
-          </div>
-          <p class="main_player-country">India</p>
-          <p class="main_player-score">100</p>
-          <div class="main_scoreboard-btn-container">
-            <button type="button">&#x1f5d1;</button>
-            <button type="button">+5</button>
-            <button type="button">-5</button>
-          </div>
-        </div>
+      <!-- Search and sort controls -->
+      <div class="search-sort-container">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search by name or country..."
+          aria-label="Search players"
+        />
+        <select id="sortSelect" aria-label="Sort players">
+          <option value="score">Sort by Score</option>
+          <option value="name">Sort by Name</option>
+          <option value="country">Sort by Country</option>
+        </select>
       </div>
+
+      <!-- Scoreboard container -->
+      <div class="main_scoreboard-wrapper"></div>
     </main>
+
     <script src="script.js"></script>
   </body>
 </html>
