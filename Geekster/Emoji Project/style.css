@@ -627,3 +627,11 @@ body.dark-mode .gender {
 body.dark-mode .main_player-country {
   color: #ddd;
 }
+
+body,
+main,
+.main_title,
+.gender,
+.main_player-country {
+  transition: background 0.4s ease, color 0.4s ease;
+}
