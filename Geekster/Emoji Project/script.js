@@ -11,11 +11,25 @@ const searchInput = document.getElementById("searchInput");
 const sortSelect = document.getElementById("sortSelect");
 
 let players = JSON.parse(localStorage.getItem("players")) || [];
+// Store previous rankings by player id (we'll generate IDs)
+let previousRanks = {};
 
+// Utility: assign unique ID to each player if not exists (for tracking)
+function ensurePlayerIds() {
+  players.forEach((p, i) => {
+    if (!p.id) {
+      p.id =
+        "player_" + Date.now() + "_" + Math.random().toString(36).slice(2, 10);
+    }
+  });
+}
+
+// Save to localStorage
 function savePlayers() {
   localStorage.setItem("players", JSON.stringify(players));
 }
 
+// Show error message temporarily
 function showError(message) {
   errorPrompter.textContent = message;
   errorPrompter.style.display = "block";
@@ -24,23 +38,20 @@ function showError(message) {
   }, 3000);
 }
 
+// Capitalize first letter only
 function formatName(name) {
   if (!name) return "";
   return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 }
 
+// Check country contains only letters and spaces
 function isValidCountry(country) {
   return /^[a-zA-Z\s]+$/.test(country);
 }
 
-// Returns the arrow symbol based on score change (up/down/no change)
-function getArrowSymbol(diff) {
-  if (diff > 0) return "▲";
-  else if (diff < 0) return "▼";
-  else return "–";
-}
-
 function renderPlayers() {
+  ensurePlayerIds();
+
   // Sort players according to current sort
   let sortedPlayers = [...players];
   const sortVal = sortSelect.value;
@@ -62,17 +73,24 @@ function renderPlayers() {
       p.country.toLowerCase().includes(filterText)
   );
 
+  // Create a map of current ranks by player id
+  const currentRanks = {};
+  filteredPlayers.forEach((p, idx) => {
+    currentRanks[p.id] = idx + 1;
+  });
+
   scoreboardWrapper.innerHTML = "";
 
   filteredPlayers.forEach((player, index) => {
-    if (player.prevScore === undefined) player.prevScore = player.score;
-    const scoreDiff = player.score - player.prevScore;
-    player.prevScore = player.score;
+    // Calculate rank movement compared to previousRanks
+    let prevRank = previousRanks[player.id];
+    if (prevRank === undefined) prevRank = index + 1; // If no previous rank, assume same as current
+    const rankDiff = prevRank - (index + 1); // positive means moved up, negative down
 
     const playerRow = document.createElement("div");
     playerRow.classList.add("main_scoreboard", "fade-in");
 
-    // Rank + arrow for movement
+    // Rank + movement arrow
     const leftDiv = document.createElement("div");
 
     // Rank number or crown
@@ -86,12 +104,12 @@ function renderPlayers() {
     }
     leftDiv.appendChild(rankSpan);
 
-    // Movement arrow
+    // Movement arrow for rank changes
     const movementArrow = document.createElement("span");
-    if (scoreDiff > 0) {
+    if (rankDiff > 0) {
       movementArrow.className = "arrow-up";
       movementArrow.textContent = "▲";
-    } else if (scoreDiff < 0) {
+    } else if (rankDiff < 0) {
       movementArrow.className = "arrow-down";
       movementArrow.textContent = "▼";
     } else {
@@ -183,6 +201,9 @@ function renderPlayers() {
 
     scoreboardWrapper.appendChild(playerRow);
   });
+
+  // Update previousRanks for next render
+  previousRanks = currentRanks;
 }
 
 form.addEventListener("submit", (e) => {
@@ -204,7 +225,7 @@ form.addEventListener("submit", (e) => {
     return;
   }
 
-  // Check duplicates (case-insensitive)
+  // Check duplicates by full name (case-insensitive)
   const exists = players.some(
     (p) =>
       p.firstName.toLowerCase() === firstName.toLowerCase() &&
@@ -228,7 +249,7 @@ form.addEventListener("submit", (e) => {
   savePlayers();
   renderPlayers();
 
-  // Clear form inputs
+  // Clear inputs
   firstNameInput.value = "";
   lastNameInput.value = "";
   genderInput.value = "";
@@ -239,4 +260,5 @@ form.addEventListener("submit", (e) => {
 searchInput.addEventListener("input", renderPlayers);
 sortSelect.addEventListener("change", renderPlayers);
 
+// Initial render
 renderPlayers();
