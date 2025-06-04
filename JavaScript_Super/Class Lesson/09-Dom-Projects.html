@@ -53,16 +53,19 @@
       //shipping
       function calculateTotal() {
         const inputElement = document.querySelector(".js-cost-input");
-        let cost = +inputElement.value;
+        let cost = Number(inputElement.value);
+
+        if (isNaN(cost) || cost <= 0) {
+          document.querySelector(".js-total-cost").innerHTML =
+            "Please enter a valid positive number.";
+          return;
+        }
 
         if (cost < 40) {
-          cost = cost + 10;
-        } else {
-          return cost;
+          cost += 10;
         }
-        console.log(cost);
+
         document.querySelector(".js-total-cost").innerHTML = `$${cost}`;
-        //save to localstorage
         localStorage.setItem("lastCost", cost);
       }
 
