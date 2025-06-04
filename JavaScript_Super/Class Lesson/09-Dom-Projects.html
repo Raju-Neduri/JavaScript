@@ -14,12 +14,32 @@
     <button onclick="subscribe()">Subscribe</button>
 
     <p>Amazon shipping calculator</p>
-    <input placeholder="Cost of order" type="text" class="js-cost-input" />
+    <input
+      placeholder="Cost of order"
+      type="text"
+      class="js-cost-input"
+      onkeydown="enterbutton()"
+    />
     <button onclick="calculateTotal()">Calculate</button>
+    <button onclick="resetvalue()">Reset</button>
 
     <p class="js-total-cost"></p>
 
     <script>
+      //reset button logic
+      function resetvalue() {
+        document.querySelector(".js-cost-input").value = "";
+        document.querySelector(".js-total-cost").innerHTML = "";
+        localStorage.removeItem("lastCost");
+      }
+
+      //on page load show last cost if available
+      const lastCost = localStorage.getItem("lastCost");
+      if (lastCost !== null) {
+        document.querySelector(".js-cost-input").value = lastCost;
+        document.querySelector(".js-total-cost").innerHTML = `$${lastCost}`;
+      }
+
       //youtube subscribe button
       const btn = document.querySelector("button");
       function subscribe() {
@@ -42,6 +62,15 @@
         }
         console.log(cost);
         document.querySelector(".js-total-cost").innerHTML = `$${cost}`;
+        //save to localstorage
+        localStorage.setItem("lastCost", cost);
+      }
+
+      //enter button for shipping
+      function enterbutton() {
+        if (event.key === "Enter") {
+          calculateTotal();
+        }
       }
     </script>
   </body>
