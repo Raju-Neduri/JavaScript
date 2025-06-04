@@ -4,10 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DOM Projects</title>
+    <style>
+      .js-total-cost {
+      }
+    </style>
   </head>
   <body>
     <p>Youtube Subscribe Button</p>
     <button onclick="subscribe()">Subscribe</button>
+
+    <p>Amazon shipping calculator</p>
+    <input placeholder="Cost of order" type="text" class="js-cost-input" />
+    <button onclick="calculateTotal()">Calculate</button>
+
+    <p class="js-total-cost"></p>
 
     <script>
       //youtube subscribe button
@@ -18,6 +28,20 @@
         } else {
           btn.innerText = "Subscribe";
         }
+      }
+
+      //shipping
+      function calculateTotal() {
+        const inputElement = document.querySelector(".js-cost-input");
+        let cost = +inputElement.value;
+
+        if (cost < 40) {
+          cost = cost + 10;
+        } else {
+          return cost;
+        }
+        console.log(cost);
+        document.querySelector(".js-total-cost").innerHTML = `$${cost}`;
       }
     </script>
   </body>
