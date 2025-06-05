@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM Projects</title>
+    <style>
+      .js-total-cost {
+      }
+    </style>
+  </head>
+  <body>
+    <p>Youtube Subscribe Button</p>
+    <button onclick="subscribe()">Subscribe</button>
+
+    <p>Amazon shipping calculator</p>
+    <input
+      placeholder="Cost of order"
+      type="text"
+      class="js-cost-input"
+      onkeydown="enterbutton()"
+    />
+    <button onclick="calculateTotal()">Calculate</button>
+    <button onclick="resetvalue()">Reset</button>
+
+    <p class="js-total-cost"></p>
+
+    <script>
+      //reset button logic
+      function resetvalue() {
+        document.querySelector(".js-cost-input").value = "";
+        document.querySelector(".js-total-cost").innerHTML = "";
+        localStorage.removeItem("lastCost");
+      }
+
+      //on page load show last cost if available
+      const lastCost = localStorage.getItem("lastCost");
+      if (lastCost !== null) {
+        document.querySelector(".js-cost-input").value = lastCost;
+        document.querySelector(".js-total-cost").innerHTML = `$${lastCost}`;
+      }
+
+      //youtube subscribe button
+      const btn = document.querySelector("button");
+      function subscribe() {
+        if (btn.innerText === "Subscribe") {
+          btn.innerText = "Subscribed";
+        } else {
+          btn.innerText = "Subscribe";
+        }
+      }
+
+      //shipping
+      function calculateTotal() {
+        const inputElement = document.querySelector(".js-cost-input");
+        let cost = Number(inputElement.value);
+
+        if (isNaN(cost) || cost <= 0) {
+          document.querySelector(".js-total-cost").innerHTML =
+            "Please enter a valid positive number.";
+          return;
+        }
+
+        if (cost < 40) {
+          cost += 10;
+        }
+
+        document.querySelector(".js-total-cost").innerHTML = `$${cost}`;
+        localStorage.setItem("lastCost", cost);
+      }
+
+      //enter button for shipping
+      function enterbutton() {
+        if (event.key === "Enter") {
+          calculateTotal();
+        }
+      }
+    </script>
+  </body>
+</html>
