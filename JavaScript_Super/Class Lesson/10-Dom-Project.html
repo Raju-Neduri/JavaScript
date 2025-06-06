@@ -5,23 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DOM Projects</title>
     <style>
-      .js-total-cost {
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      /* subscribe button */
+      .subscribe-button {
+        border: none;
+        background-color: black;
+        color: white;
+        font-size: 16px;
+        padding: 11px 16px;
+        border-radius: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 30px;
+      }
+
+      .is-subscribed {
+        background-color: rgb(240, 240, 240);
+        color: black;
+        border: none;
+      }
+
+      /* shipping */
+      .cost-input {
+        font-size: 15px;
+        padding: 10px;
+      }
+      .claculate-button {
+        background-color: green;
+        color: white;
+        padding: 10px;
+        border: none;
+        font-size: 15px;
+      }
+
+      /* reset button */
+      .reset-button {
+        background-color: #888;
+        color: #fff;
+        padding: 10px 18px;
+        font-size: 15px;
+        border: none;
+        border-radius: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-left: 8px;
+      }
+
+      .reset-button:hover,
+      .reset-button:focus {
+        background-color: #555;
+        outline: none;
       }
     </style>
   </head>
   <body>
     <p>Youtube Subscribe Button</p>
-    <button onclick="subscribe()">Subscribe</button>
+    <button onclick="subscribe()" class="js-subscribe-button subscribe-button">
+      Subscribe
+    </button>
 
     <p>Amazon shipping calculator</p>
     <input
       placeholder="Cost of order"
       type="text"
-      class="js-cost-input"
+      class="js-cost-input cost-input"
       onkeydown="enterbutton()"
     />
-    <button onclick="calculateTotal()">Calculate</button>
-    <button onclick="resetvalue()">Reset</button>
+    <button onclick="calculateTotal()" class="claculate-button">
+      Calculate
+    </button>
+    <button onclick="resetvalue()" class="reset-button">Reset</button>
 
     <p class="js-total-cost"></p>
 
@@ -45,8 +102,10 @@
       function subscribe() {
         if (btn.innerText === "Subscribe") {
           btn.innerText = "Subscribed";
+          btn.classList.add("is-subscribed");
         } else {
           btn.innerText = "Subscribe";
+          btn.classList.remove("is-subscribed");
         }
       }
 
