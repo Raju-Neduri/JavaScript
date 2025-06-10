@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do list</title>
+  </head>
+  <body>
+    <p>Todo List</p>
+    <input
+      type="text"
+      class="js-name-input"
+      id="todo-input"
+      placeholder="Todo Name"
+      onkeydown="enterbutton(event)"
+    />
+    <button onclick="addTodo()">Add</button>
+    <div class="js-todo-list"></div>
+
+    <script src="./todolist.js"></script>
+  </body>
+</html>
