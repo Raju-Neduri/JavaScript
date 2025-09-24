@@ -8,6 +8,7 @@ let values = [
   "Employee",
   "Indian",
   "Husband",
+  "Brother",
 ];
 
 let careerIndex = 0;
